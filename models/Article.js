@@ -10,13 +10,21 @@ var ArticleSchema = new Schema({
   },
   link: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   synopsis: {
     type: String,
-    required: true
-  }
-});
+    required: true,
+    unique: true
+  },
+  notes: [{
+    type: Schema.Types.ObjectId,
+    ref: "Comment"
+  }]
+}, {
+    timestamps: true
+  });
 
 var Article = mongoose.model("Article", ArticleSchema);
 

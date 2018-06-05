@@ -13,7 +13,6 @@ mongoose.connect(MONGODB_URI);
 module.exports = function (app) {
 
   app.get("/", function (req, res) {
-    let results = [];
 
     request("https://www.ksl.com/", function (error, response, html) {
       let $ = cheerio.load(html);
@@ -23,16 +22,15 @@ module.exports = function (app) {
         result.link = $(element).children("h2").children("a").attr("href");
         result.synopsis = $(element).children("h5").text();
 
-        db.Article.create(result).then(function (article) {
-          // console.log(article);
+        db.Article.create(result).then(function (err, article) {
         }).catch(function (err) {
-          return res.json(err)
+          console.log(err)
         });
 
       });
     });
 
-    db.Article.find({}).then(function (resp) {
+    db.Article.find().sort({'createdAt': -1}).then(function (resp) {
       res.render("index", { stories: resp })
     });
   });
