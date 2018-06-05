@@ -7,6 +7,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
+let mongoose = require("mongoose");
 
 // Sets up the Express App
 // =============================================================
@@ -31,19 +32,8 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// Routes
-// =============================================================
-require("./routes/users-api-routes.js")(app);
-require("./routes/events-api-routes.js")(app);
-require("./routes/polls-api-routes.js")(app);
-require("./routes/polls-data-api-routes.js")(app);
-require("./routes/feedback-api-routes.js")(app);
-require("./routes/html-routes.js")(app);
+require("./controllers/scraperController.js")(app);
 
-// Syncing our sequelize models and then starting our Express app
-// =============================================================
-db.sequelize.sync({ force: false }).then(function () {
-	app.listen(PORT, function () {
-		console.log("App listening on PORT " + PORT);
-	});
+app.listen(PORT, function () {
+	console.log("App listening on PORT " + PORT);
 });
