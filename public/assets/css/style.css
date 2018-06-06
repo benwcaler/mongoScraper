@@ -1,0 +1,22 @@
+.comments {
+  max-height: 0px;
+  padding-left: 20px;
+  list-style-type: none;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 12px;
+  -webkit-transition: max-height .25s ease-in;
+  -moz-transition: max-height .25s ease-in;
+  -o-transition: max-height .25s ease-in;
+  -ms-transition: max-height .25s ease-in;
+  transition: max-height .25s ease-in;
+  background-color: aquamarine;
+}
+
+.commentBox {
+
+}
+
+.input {
+
+}

@@ -1,9 +1,9 @@
-var db = require("../models");
+let db = require("../models");
 let cheerio = require("cheerio");
 let request = require("request");
 let mongoose = require("mongoose");
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
@@ -26,13 +26,24 @@ module.exports = function (app) {
         }).catch(function (err) {
           console.log(err)
         });
-
       });
     });
-
-    db.Article.find().sort({'createdAt': -1}).then(function (resp) {
+//need a timeout or somethign to keep this from loading before the db is populated. 
+    db.Article.find().sort({'createdAt': -1}).populate("comments").then(function (resp) {
       res.render("index", { stories: resp })
     });
   });
 
+  app.post("/newcomment", function (req,res) {
+    console.log(req.body)
+    let comment = {
+      author: req.body.author,
+      comment: req.body.comment
+    };
+    db.Comment.create(comment).then(function (cmnt) {
+      return db.Article.findOneAndUpdate({_id: req.body.id}, {$push: {comments: cmnt._id}},{new: true});
+    }).catch(function (err) {
+      console.log(err)
+    });
+  });
 }
