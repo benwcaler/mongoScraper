@@ -19,7 +19,7 @@ module.exports = function (app) {
       let result = {};
       $("div.headline").each(function (i, element) {
         result.title = $(element).children("h2").text().replace('\n', '').trim();
-        result.link = $(element).children("h2").children("a").attr("href");
+        result.link = `http://www.ksl.com/${$(element).children("h2").children("a").attr("href")}`;
         result.synopsis = $(element).children("h5").text();
 
         db.Article.create(result).then(function (err, article) {
@@ -30,7 +30,8 @@ module.exports = function (app) {
     });
 //need a timeout or somethign to keep this from loading before the db is populated. 
     db.Article.find().sort({'createdAt': -1}).populate("comments").then(function (resp) {
-      res.render("index", { stories: resp })
+      setTimeout(1000,
+      res.render("index", { stories: resp }));
     });
   });
 
@@ -45,5 +46,21 @@ module.exports = function (app) {
     }).catch(function (err) {
       console.log(err)
     });
+    res.redirect("/");
   });
+
+  app.delete("/del", function(req,res) {
+    let commentid = req.body.commentid;
+    let articleid = req.body.articleid;
+    // db.Comment.delete({_id: commentid}).then(function(data) {
+    // }).catch(function(err) {
+    //   console.log(err)
+    // });
+    // db.Article.update({_id: articleid}, {'$pull': {"comments": commentid}}).then(function(res) {
+    // }).catch(function(err) {
+    //   console.log(err)
+    // });
+    res.redirect("/");
+  })
+
 }

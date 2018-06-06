@@ -2,18 +2,18 @@
   {{#each stories}}
   <div class="stories">
     <h3>
-      <a href="{{link}}">{{title}}</a>
+      <a target="_blank" href="{{link}}">{{title}}</a>
     </h3>
     <p>{{synopsis}}</p>
-    <button class="addC" data-id="{{_id}}">Add comment</button>
+    <button class="addC" data-id="{{_id}}">Show/hide comments</button>
     <div class="comments" id="{{_id}}">
       <h3>Comments</h3>
       <div class="commentsBox">
         {{#each comments}}
-        <div>{{author}}- {{comment}}</div>
+        <div><strong>{{author}}</strong> - {{comment}}</div>
+        <button class="del" data-id="{{_id}}">X</button>
         {{/each}}
       </div>
-      {{!-- <form action="/newcomment" method="POST"> --}}
       <form>
         <input type="text" id="author">
         <textarea name="comment" id="txtarea" cols="30" rows="10"></textarea>
