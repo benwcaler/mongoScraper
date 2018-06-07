@@ -57,15 +57,11 @@ module.exports = function (app) {
     db.Comment.findByIdAndRemove(commentid, (err,result)=>{
       console.log(result);
     });
-    // db.Comment.delete({_id: commentid}).then(function(data) {
 
-    // }).catch(function(err) {
-    //   console.log(err)
-    // });
-    // // db.Article.update({_id: articleid}, {'$pull': {"comments": commentid}}).then(function(res) {
-    // // }).catch(function(err) {
-    // //   console.log(err)
-    // // });
+    db.Article.update({_id: articleid}, {'$pull': {"comments": commentid}}).then(function(res) {
+    }).catch(function(err) {
+      console.log(err)
+    });
     res.redirect('/');
   })
 
