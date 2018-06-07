@@ -50,17 +50,23 @@ module.exports = function (app) {
   });
 
   app.delete("/del", function(req,res) {
+    console.log("anything")
     let commentid = req.body.commentid;
     let articleid = req.body.articleid;
+    console.log(commentid);
+    db.Comment.findByIdAndRemove(commentid, (err,result)=>{
+      console.log(result);
+    });
     // db.Comment.delete({_id: commentid}).then(function(data) {
+
     // }).catch(function(err) {
     //   console.log(err)
     // });
-    // db.Article.update({_id: articleid}, {'$pull': {"comments": commentid}}).then(function(res) {
-    // }).catch(function(err) {
-    //   console.log(err)
-    // });
-    res.redirect("/");
+    // // db.Article.update({_id: articleid}, {'$pull': {"comments": commentid}}).then(function(res) {
+    // // }).catch(function(err) {
+    // //   console.log(err)
+    // // });
+    res.redirect('/');
   })
 
 }
